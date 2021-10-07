@@ -1,6 +1,6 @@
 # First task for Methods and Models for Multivariate Data Analysis - ITMO University
 
-##Tasks:
+## Tasks:
 1. probability density function using histogram and kernel density function
 1. box with whiskers plot
 1. find and fit the data into existing distributions
