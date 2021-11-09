@@ -4,7 +4,7 @@ import numpy as np
 import seaborn as sns
 import pandas as pd
 import matplotlib.pyplot as plt
-from scipy.stats import gamma
+from scipy.stats.distributions import gamma
 
 sns.set()
 

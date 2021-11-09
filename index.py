@@ -10,4 +10,4 @@ for property in VARIABLES_CONTINUOUS:
     stddev = math.sqrt(var)
     print(f'For {property} we have mean: {mean}; median: {median}; stddev: {stddev}')
     non_paramteric_histogram(df, property)
-    draw_some_estimations(df, property, mean, var)
+    #draw_some_estimations(df, property, mean, var)
