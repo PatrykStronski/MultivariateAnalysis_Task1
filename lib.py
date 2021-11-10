@@ -8,11 +8,12 @@ from scipy.stats.distributions import gamma
 
 sns.set()
 
-def get_mean_median_var(df: pd.DataFrame, property: str) -> (float, float, float):
+def get_moments(df: pd.DataFrame, property: str) -> tuple:
     mean = df[property].mean()
     median = df[property].median()
     var = math.sqrt(df[property].var())
-    return mean, median, var
+    skewness = df[property].skew()
+    return (mean, median, var, skewness)
 
 def plot_data(df: pd.DataFrame, property: str):
     sns.histplot(df, x=property, bins=30)
