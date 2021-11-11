@@ -4,8 +4,10 @@ import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
 from norm_dist_models import std_normal, log_normal, gamma_norm, exp_norm, exponential
+from mle import mle_gamma
 from scipy.stats import gaussian_kde 
 from lib import non_paramteric_histogram, get_moments, draw_some_estimations
+from scipy.stats.distributions import norm, gamma, exponnorm, lognorm, expon
 
 df = pd.read_csv('./data/FW_Veg_Rem_Combined.csv')
 
@@ -30,5 +32,16 @@ plt.plot(x, exponential(x), label='EXPonential')
 plt.legend()
 plt.show()
 
-plt.boxplot(df[property], vert=False)
+mle_gm = gamma.fit(df[property], loc=0)
+#print(mle_gm)
+mle_ln = lognorm.fit(df[property], loc=0)
+#print(mle_ln)
+
+sns.displot(data=df, x=property, label=f'Average size for {property} class', bins=50, stat="probability")
+plt.plot(x, gamma.pdf(x, mle_gm[0], mle_gm[1], mle_gm[2]), label='GAMMA')
+plt.plot(x, lognorm.pdf(x, mle_ln[0], loc=mle_ln[1], scale=mle_ln[2]), label='lognormal')
+plt.legend()
+plt.show()
+
+sns.boxplot(data=df, y=property)
 plt.show()

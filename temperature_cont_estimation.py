@@ -8,13 +8,12 @@ from norm_dist_models import std_normal, log_normal, gamma_norm, exp_norm, expon
 from scipy.stats import gaussian_kde 
 from lib import non_paramteric_histogram, get_moments, draw_some_estimations
 from scipy.stats.distributions import norm, gamma, exponnorm, lognorm, expon
-from least_squares import ls_gamma
 from mle import mle_gamma, mle_lognormal
 
 df = pd.read_csv('./data/FW_Veg_Rem_Combined.csv')
 
 fire_size_classes = pd.unique(df['fire_size_class'])
-property = 'fire_size'
+property = 'Temp_cont'
 
 for s_c in fire_size_classes:
     df_sampled = df.loc[df['fire_size_class'] == s_c]
@@ -26,7 +25,7 @@ for s_c in fire_size_classes:
 
     kernel = gaussian_kde(df_sampled[property])
     min_amount, max_amount = df_sampled[property].min(), df_sampled[property].max()
-    x = np.linspace(0, max_amount, num=50)
+    x = np.linspace(min_amount, max_amount, num=50)
     kde_values = kernel(x)
 
     sns.displot(data=df_sampled, x=property, label=f'Average size for class {s_c}', bins=50, stat="probability")
@@ -38,25 +37,19 @@ for s_c in fire_size_classes:
     plt.legend()
     plt.show()
 
-    mle_gm = gamma.fit(df_sampled[property])
-    mle_ln = lognorm.fit(df_sampled[property])
-    mle_en = exponnorm.fit(df_sampled[property])
+#    mle_gm = mle_gamma(x, mean, stddev)
+#    mle_ln = mle_lognormal(x, skewness, mean, stddev)
+    mle_gm = gamma.fit(df_sampled[property], loc=min_amount)
+    #print(mle_gm)
+    mle_ln = lognorm.fit(df_sampled[property], loc=min_amount)
+    #print(mle_ln)
 
     sns.displot(data=df_sampled, x=property, label=f'Average size for {property} class', bins=50, stat="probability")
+    print(x)
     plt.plot(x, gamma.pdf(x, mle_gm[0], mle_gm[1], mle_gm[2]), label='GAMMA')
     plt.plot(x, lognorm.pdf(x, mle_ln[0], loc=mle_ln[1], scale=mle_ln[2]), label='lognormal')
-    plt.plot(x, exponnorm.pdf(x, mle_en[0], loc=mle_en[1], scale=mle_en[2]), label='exponnorm')
     plt.legend()
     plt.show()
 
-    ls_gm = ls_gamma(df_sampled[property], (mean, stddev))
-
-    sns.displot(data=df_sampled, x=property, label=f'Average size for {property} class', bins=50, stat="probability")
-    plt.plot(x, gamma.pdf(x, mle_gm[0], mle_gm[1], mle_gm[2]), label='GAMMA')
-    #plt.plot(x, lognorm.pdf(x, mle_ln[0], loc=mle_ln[1], scale=mle_ln[2]), label='lognormal')
-    #plt.plot(x, exponnorm.pdf(x, mle_en[0], loc=mle_en[1], scale=mle_en[2]), label='exponnorm')
-    plt.legend()
-    plt.show()
-
-    plt.boxplot(df_sampled[property], vert=False)
-    plt.show()
+#    plt.boxplot(df_sampled[property], vert=False)
+#    plt.show()
