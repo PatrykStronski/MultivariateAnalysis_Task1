@@ -1,15 +1,15 @@
 import math
 import numpy as np
-from numpy.core.fromnumeric import std
 import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
-from norm_dist_models import std_normal, log_normal, gamma_norm, exp_norm, exponential
+from norm_dist_models import log_normal, gamma_norm, exp_norm, exponential
 from scipy.stats import gaussian_kde 
 from lib import non_paramteric_histogram, get_moments, draw_some_estimations
 from scipy.stats.distributions import norm, gamma, exponnorm, lognorm, expon
 from least_squares import ls_gamma, ls_lognorm, ls_exponnorm
-from mle import mle_gamma, mle_lognormal
+from qq_plot import draw_qq
+from statistical_tests import calculate_tests
 
 df = pd.read_csv('./data/FW_Veg_Rem_Combined.csv')
 
@@ -60,6 +60,13 @@ for s_c in fire_size_classes:
     plt.plot(x, exponnorm.pdf(x, ls_en[0], loc=ls_en[1], scale=ls_en[2]), label='exponnorm')
     plt.legend()
     plt.show()
+
+    draw_qq(kde_values, gamma.pdf(x, ls_gm[0], ls_gm[1], ls_gm[2]), 'gamma')
+    calculate_tests(kde_values, gamma.pdf(x, ls_gm[0], ls_gm[1], ls_gm[2]), 'gamma', ls_gm)
+    draw_qq(kde_values, lognorm.pdf(x, ls_ln[0], loc=ls_ln[1], scale=ls_ln[2]), 'lognorm')
+    calculate_tests(kde_values, lognorm.pdf(x, ls_ln[0], loc=ls_ln[1], scale=ls_ln[2]), 'lognorm', ls_ln)
+    draw_qq(kde_values, exponnorm.pdf(x, ls_en[0], loc=ls_en[1], scale=ls_en[2]), 'exponnorm')
+    calculate_tests(kde_values, exponnorm.pdf(x, ls_en[0], loc=ls_en[1], scale=ls_en[2]), 'exponnorm', ls_en)
 
     plt.boxplot(df_sampled[property], vert=False)
     plt.show()
