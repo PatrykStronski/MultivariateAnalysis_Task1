@@ -8,7 +8,7 @@ from norm_dist_models import std_normal, log_normal, gamma_norm, exp_norm, expon
 from scipy.stats import gaussian_kde 
 from lib import non_paramteric_histogram, get_moments, draw_some_estimations
 from scipy.stats.distributions import norm, gamma, exponnorm, lognorm, expon
-from least_squares import ls_gamma
+from least_squares import ls_gamma, ls_lognorm, ls_exponnorm
 from mle import mle_gamma, mle_lognormal
 
 df = pd.read_csv('./data/FW_Veg_Rem_Combined.csv')
@@ -49,12 +49,15 @@ for s_c in fire_size_classes:
     plt.legend()
     plt.show()
 
-    ls_gm = ls_gamma(df_sampled[property], (mean, stddev))
+    ls_gm = ls_gamma(x, kde_values, (1, mean, stddev))
+    ls_ln = ls_lognorm(x, kde_values, (1, mean, stddev))
+    ls_en = ls_exponnorm(x, kde_values, (1, mean, stddev))
 
     sns.displot(data=df_sampled, x=property, label=f'Average size for {property} class', bins=50, stat="probability")
-    plt.plot(x, gamma.pdf(x, mle_gm[0], mle_gm[1], mle_gm[2]), label='GAMMA')
-    #plt.plot(x, lognorm.pdf(x, mle_ln[0], loc=mle_ln[1], scale=mle_ln[2]), label='lognormal')
-    #plt.plot(x, exponnorm.pdf(x, mle_en[0], loc=mle_en[1], scale=mle_en[2]), label='exponnorm')
+    plt.plot(x, kde_values, label='KDE')
+    plt.plot(x, gamma.pdf(x, ls_gm[0], ls_gm[1], ls_gm[2]), label='GAMMA')
+    plt.plot(x, lognorm.pdf(x, ls_ln[0], loc=ls_ln[1], scale=ls_ln[2]), label='lognormal')
+    plt.plot(x, exponnorm.pdf(x, ls_en[0], loc=ls_en[1], scale=ls_en[2]), label='exponnorm')
     plt.legend()
     plt.show()
 

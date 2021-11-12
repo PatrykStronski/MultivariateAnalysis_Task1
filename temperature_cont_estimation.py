@@ -45,7 +45,7 @@ for s_c in fire_size_classes:
     #print(mle_ln)
 
     sns.displot(data=df_sampled, x=property, label=f'Average size for {property} class', bins=50, stat="probability")
-    print(x)
+    plt.plot(x, kde_values, label='KDE')
     plt.plot(x, gamma.pdf(x, mle_gm[0], mle_gm[1], mle_gm[2]), label='GAMMA')
     plt.plot(x, lognorm.pdf(x, mle_ln[0], loc=mle_ln[1], scale=mle_ln[2]), label='lognormal')
     plt.legend()
