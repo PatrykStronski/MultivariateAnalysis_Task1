@@ -5,7 +5,7 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 from norm_dist_models import log_normal, gamma_norm, exp_norm, exponential
 from scipy.stats import gaussian_kde 
-from lib import non_paramteric_histogram, get_moments, draw_some_estimations
+from lib import get_moments
 from scipy.stats.distributions import norm, gamma, exponnorm, lognorm, expon
 from least_squares import ls_gamma, ls_lognorm, ls_exponnorm
 from qq_plot import draw_qq
@@ -49,6 +49,13 @@ for s_c in fire_size_classes:
     plt.legend()
     plt.show()
 
+    draw_qq(kde_values, gamma.pdf(x, mle_gm[0], mle_gm[1], mle_gm[2]), 'gamma')
+    calculate_tests(kde_values, 'gamma', mle_gm)
+    draw_qq(kde_values, lognorm.pdf(x, mle_ln[0], loc=mle_ln[1], scale=mle_ln[2]), 'lognorm')
+    calculate_tests(kde_values, 'lognorm', mle_ln)
+    draw_qq(kde_values, exponnorm.pdf(x, mle_en[0], loc=mle_en[1], scale=mle_en[2]), 'exponnorm')
+    calculate_tests(kde_values, 'exponnorm', mle_en)
+
     ls_gm = ls_gamma(x, kde_values, (1, mean, stddev))
     ls_ln = ls_lognorm(x, kde_values, (1, mean, stddev))
     ls_en = ls_exponnorm(x, kde_values, (1, mean, stddev))
@@ -62,11 +69,11 @@ for s_c in fire_size_classes:
     plt.show()
 
     draw_qq(kde_values, gamma.pdf(x, ls_gm[0], ls_gm[1], ls_gm[2]), 'gamma')
-    calculate_tests(kde_values, gamma.pdf(x, ls_gm[0], ls_gm[1], ls_gm[2]), 'gamma', ls_gm)
+    calculate_tests(kde_values, 'gamma', ls_gm)
     draw_qq(kde_values, lognorm.pdf(x, ls_ln[0], loc=ls_ln[1], scale=ls_ln[2]), 'lognorm')
-    calculate_tests(kde_values, lognorm.pdf(x, ls_ln[0], loc=ls_ln[1], scale=ls_ln[2]), 'lognorm', ls_ln)
+    calculate_tests(kde_values, 'lognorm', ls_ln)
     draw_qq(kde_values, exponnorm.pdf(x, ls_en[0], loc=ls_en[1], scale=ls_en[2]), 'exponnorm')
-    calculate_tests(kde_values, exponnorm.pdf(x, ls_en[0], loc=ls_en[1], scale=ls_en[2]), 'exponnorm', ls_en)
+    calculate_tests(kde_values, 'exponnorm', ls_en)
 
     plt.boxplot(df_sampled[property], vert=False)
     plt.show()
