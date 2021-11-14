@@ -39,9 +39,15 @@ def draw_mm_diagrams(df: pd.DataFrame, x: pd.Series, fire_size_class: str, prope
 
     best_fit_ks, best_fit_omega = choose_best_fitness(test_results)
     if best_fit_ks['dist'] != None:
-        draw_qq(kde_values, dstrs[best_fit_ks['dist']](x, mm[best_fit_ks['dist']][0], mm[best_fit_ks['dist']][1], mm[best_fit_ks['dist']][2]), 'gamma')
+        if best_fit_ks['dist'] != 'expon':
+            draw_qq(kde_values, dstrs[best_fit_ks['dist']](x, mm[best_fit_ks['dist']][0], mm[best_fit_ks['dist']][1], mm[best_fit_ks['dist']][2]), best_fit_ks['dist'])
+        else:
+            draw_qq(kde_values, dstrs[best_fit_ks['dist']](x, mm[best_fit_ks['dist']][0], mm[best_fit_ks['dist']][1]), best_fit_ks['dist'])
     if best_fit_omega['dist'] != None:
-        draw_qq(kde_values, dstrs[best_fit_omega['dist']](x, mm[best_fit_omega['dist']][0], mm[best_fit_omega['dist']][1], mm[best_fit_omega['dist']][2]), 'gamma')
+        if best_fit_omega['dist'] != 'expon':
+            draw_qq(kde_values, dstrs[best_fit_omega['dist']](x, mm[best_fit_omega['dist']][0], mm[best_fit_omega['dist']][1], mm[best_fit_omega['dist']][2]), best_fit_omega['dist'])
+        else:
+            draw_qq(kde_values, dstrs[best_fit_omega['dist']](x, mm[best_fit_omega['dist']][0], mm[best_fit_omega['dist']][1]), best_fit_omega['dist'])
 
 
 def draw_mle_diagrams(df: pd.DataFrame, x: pd.Series, fire_size_class: str, property: str, kde_values: pd.Series, binz: int):
@@ -68,9 +74,15 @@ def draw_mle_diagrams(df: pd.DataFrame, x: pd.Series, fire_size_class: str, prop
 
     best_fit_ks, best_fit_omega = choose_best_fitness(test_results)
     if best_fit_ks['dist'] != None:
-        draw_qq(kde_values, dstrs[best_fit_ks['dist']](x, mle[best_fit_ks['dist']][0], mle[best_fit_ks['dist']][1], mle[best_fit_ks['dist']][2]), 'gamma')
+        if best_fit_ks['dist'] != 'expon':
+            draw_qq(kde_values, dstrs[best_fit_ks['dist']](x, mle[best_fit_ks['dist']][0], mle[best_fit_ks['dist']][1], mle[best_fit_ks['dist']][2]), best_fit_ks['dist'])
+        else:
+            draw_qq(kde_values, dstrs[best_fit_ks['dist']](x, mle[best_fit_ks['dist']][0], mle[best_fit_ks['dist']][1]), best_fit_ks['dist'])
     if best_fit_omega['dist'] != None:
-        draw_qq(kde_values, dstrs[best_fit_omega['dist']](x, mle[best_fit_omega['dist']][0], mle[best_fit_omega['dist']][1], mle[best_fit_omega['dist']][2]), 'gamma')
+        if best_fit_omega['dist'] != 'expon':
+            draw_qq(kde_values, dstrs[best_fit_omega['dist']](x, mle[best_fit_omega['dist']][0], mle[best_fit_omega['dist']][1], mle[best_fit_omega['dist']][2]), best_fit_omega['dist'])
+        else:
+            draw_qq(kde_values, dstrs[best_fit_omega['dist']](x, mle[best_fit_omega['dist']][0], mle[best_fit_omega['dist']][1]), best_fit_omega['dist'])
     
 
 def draw_ls_diagrams(df: pd.DataFrame, x: pd.Series, fire_size_class: str, property: str, kde_values: pd.Series, binz: int):
@@ -82,12 +94,14 @@ def draw_ls_diagrams(df: pd.DataFrame, x: pd.Series, fire_size_class: str, prope
     ls['lognorm'] = ls_lognorm(x, kde_values, (1, mean, stddev))
     ls['exponnorm'] = ls_exponnorm(x, kde_values, (1, mean, stddev))
     ls['expon'] = ls_expon(x, kde_values, (1, mean, stddev))
+    print(ls['exponnorm'])
+    print(ls['expon'])
 
     sns.displot(data=df, x=property, label=f'Average size for {property} class {fire_size_class}', bins=binz, stat="probability")
     plt.plot(x, kde_values, label='KDE')
     plt.plot(x, gamma.pdf(x, ls['gamma'][0], ls['gamma'][1], ls['gamma'][2]), label='GAMMA')
     plt.plot(x, lognorm.pdf(x, ls['lognorm'][0], loc=ls['lognorm'][1], scale=ls['lognorm'][2]), label='lognormal')
-    plt.plot(x, exponnorm.pdf(x, ls['exponnorm'][0], loc=ls['exponnorm'][1], scale=ls['exponnorm'][2]), label='exponnorm')
+    plt.plot(x, exponnorm.pdf(x, ls['exponnorm'][0], ls['exponnorm'][1], ls['exponnorm'][2]), label='exponnorm')
     plt.plot(x, expon.pdf(x, ls['expon'][0], ls['expon'][1]), label='EXPonential')
     plt.legend()
     plt.show()
@@ -100,7 +114,13 @@ def draw_ls_diagrams(df: pd.DataFrame, x: pd.Series, fire_size_class: str, prope
 
     best_fit_ks, best_fit_omega = choose_best_fitness(test_results)
     if best_fit_ks['dist'] != None:
-        draw_qq(kde_values, dstrs[best_fit_ks['dist']](x, ls[best_fit_ks['dist']][0], ls[best_fit_ks['dist']][1], ls[best_fit_ks['dist']][2]), 'gamma')
+        if best_fit_ks['dist'] != 'expon':
+            draw_qq(kde_values, dstrs[best_fit_ks['dist']](x, ls[best_fit_ks['dist']][0], ls[best_fit_ks['dist']][1], ls[best_fit_ks['dist']][2]), best_fit_ks['dist'])
+        else:
+            draw_qq(kde_values, dstrs[best_fit_ks['dist']](x, ls[best_fit_ks['dist']][0], ls[best_fit_ks['dist']][1]), best_fit_ks['dist'])
     if best_fit_omega['dist'] != None:
-        draw_qq(kde_values, dstrs[best_fit_omega['dist']](x, ls[best_fit_omega['dist']][0], ls[best_fit_omega['dist']][1], ls[best_fit_omega['dist']][2]), 'gamma')
+        if best_fit_omega['dist'] != 'expon':
+            draw_qq(kde_values, dstrs[best_fit_omega['dist']](x, ls[best_fit_omega['dist']][0], ls[best_fit_omega['dist']][1], ls[best_fit_omega['dist']][2]), best_fit_omega['dist'])
+        else:
+            draw_qq(kde_values, dstrs[best_fit_omega['dist']](x, ls[best_fit_omega['dist']][0], ls[best_fit_omega['dist']][1]), best_fit_omega['dist'])
     
