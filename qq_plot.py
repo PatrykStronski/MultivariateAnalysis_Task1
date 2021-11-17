@@ -4,7 +4,7 @@ from typing import Callable
 import matplotlib.pyplot as plt
 import statsmodels.api as sm
 
-def draw_qq(kde_values: pd.Series, estimated: pd.Series, title: str):
+def draw_qq(kde_values: pd.Series, estimated: pd.Series, title: str, method: 'str'):
     min_qn = np.min([kde_values.min(), estimated.min()])
     max_qn = np.max([kde_values.max(), estimated.max()])
     x = np.linspace(min_qn, max_qn)
@@ -17,5 +17,5 @@ def draw_qq(kde_values: pd.Series, estimated: pd.Series, title: str):
     plt.ylim([min_qn, max_qn])
     plt.grid(True)
 
-    plt.title(f'QQ-plot for {title}')
+    plt.title(f'QQ-plot for {title} using {method}')
     plt.show()
