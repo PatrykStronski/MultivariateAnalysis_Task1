@@ -7,6 +7,9 @@ from qq_plot import draw_qq
 from statistical_tests import calculate_tests, choose_best_fitness
 from least_squares import ls_gamma, ls_lognorm, ls_expon, ls_exponnorm
 
+MAIN_FOLDER = './figures/'
+DIAGRAM_FOLDER = './figures/diagrams/'
+
 dstrs = {
     'gamma': gamma.pdf,
     'exponnorm': exponnorm.pdf,
@@ -15,10 +18,11 @@ dstrs = {
 }
 
 def draw_hist_kde(df: pd.DataFrame, x: pd.Series, fire_size_class: str, property: str, kde_values: pd.Series, binz: int):
-    sns.displot(data=df, x=property, label=f'Average size for class {fire_size_class}', bins=binz, stat="probability")
+    sns.displot(data=df, x=property, label=f'Distribution of {property}', bins=binz, stat="probability")
     plt.plot(x, kde_values, label='KDE')
     plt.title(f'Histogram and KDE for {property}')
     plt.legend()
+    plt.savefig(f'{MAIN_FOLDER}kde_histogram_{property}_{fire_size_class}.png', bbox_inches='tight')
     plt.show()
 
 def draw_mm_diagrams(df: pd.DataFrame, x: pd.Series, fire_size_class: str, property: str, kde_values: pd.Series, binz: int):
@@ -28,14 +32,15 @@ def draw_mm_diagrams(df: pd.DataFrame, x: pd.Series, fire_size_class: str, prope
     mm['exponnorm'] = exponnorm.fit(df[property], method='MM')
     mm['expon'] = expon.fit(df[property], method='MM')
 
-    sns.displot(data=df, x=property, label=f'Average size for class {fire_size_class}', bins=binz, stat="probability")
+    sns.displot(data=df, x=property, label=f'Distribution of {property}', bins=binz, stat="probability")
     plt.plot(x, kde_values, label='KDE')
     plt.plot(x, gamma.pdf(x, mm['gamma'][0], mm['gamma'][1], mm['gamma'][2]), label='GAMMA')
     plt.plot(x, lognorm.pdf(x, mm['lognorm'][0], mm['lognorm'][1], mm['lognorm'][2]), label='lognormal')
     plt.plot(x, exponnorm.pdf(x, mm['exponnorm'][0], mm['exponnorm'][1], mm['exponnorm'][2]), label='EXP normal')
     plt.plot(x, expon.pdf(x, mm['expon'][0], mm['expon'][1]), label='EXPonential')
-    plt.title(f'Method Of Moments from perspective of {property}')
+    plt.title(f'Method Of Moments for variable {property}')
     plt.legend()
+    plt.savefig(f'{DIAGRAM_FOLDER}method_moments_{property}_{fire_size_class}.png', bbox_inches='tight')
     plt.show()
 
     test_results = []
@@ -64,13 +69,14 @@ def draw_mle_diagrams(df: pd.DataFrame, x: pd.Series, fire_size_class: str, prop
     mle['exponnorm'] = exponnorm.fit(df[property])
     mle['expon'] = expon.fit(df[property])
 
-    sns.displot(data=df, x=property, label=f'Average size for {property} class {fire_size_class}', bins=binz, stat="probability")
+    sns.displot(data=df, x=property, label=f'Distribution of {property}', bins=binz, stat="probability")
     plt.plot(x, gamma.pdf(x, mle['gamma'][0], mle['gamma'][1], mle['gamma'][2]), label='GAMMA')
     plt.plot(x, lognorm.pdf(x, mle['lognorm'][0], mle['lognorm'][1], mle['lognorm'][2]), label='lognormal')
     plt.plot(x, exponnorm.pdf(x, mle['exponnorm'][0], mle['exponnorm'][1], mle['exponnorm'][2]), label='EXP normal')
     plt.plot(x, expon.pdf(x, mle['expon'][0], mle['expon'][1]), label='EXPonential')
-    plt.title(f'Maximum Likelihood Estimation from perspective of {property}')
+    plt.title(f'Maximum Likelihood Estimation for variable {property}')
     plt.legend()
+    plt.savefig(f'{DIAGRAM_FOLDER}maximum_likelihood_{property}_{fire_size_class}.png', bbox_inches='tight')
     plt.show()
 
     test_results = []
@@ -104,14 +110,15 @@ def draw_ls_diagrams(df: pd.DataFrame, x: pd.Series, fire_size_class: str, prope
     print(ls['exponnorm'])
     print(ls['expon'])
 
-    sns.displot(data=df, x=property, label=f'Average size for {property} class {fire_size_class}', bins=binz, stat="probability")
+    sns.displot(data=df, x=property, label=f'Distribution of {property}', bins=binz, stat="probability")
     plt.plot(x, kde_values, label='KDE')
     plt.plot(x, gamma.pdf(x, ls['gamma'][0], ls['gamma'][1], ls['gamma'][2]), label='GAMMA')
     plt.plot(x, lognorm.pdf(x, ls['lognorm'][0], loc=ls['lognorm'][1], scale=ls['lognorm'][2]), label='lognormal')
     plt.plot(x, exponnorm.pdf(x, ls['exponnorm'][0], ls['exponnorm'][1], ls['exponnorm'][2]), label='exponnorm')
     plt.plot(x, expon.pdf(x, ls['expon'][0], ls['expon'][1]), label='EXPonential')
-    plt.title(f'Least Squares Estimation from perspective of {property}')
+    plt.title(f'Least Squares Estimation for variable {property}')
     plt.legend()
+    plt.savefig(f'{DIAGRAM_FOLDER}least_squares_{property}_{fire_size_class}.png', bbox_inches='tight')
     plt.show()
 
     test_results = []
