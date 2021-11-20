@@ -21,10 +21,10 @@ def choose_best_fitness(test_results: list) -> tuple:
     for res in test_results:
         if best_fit_ks['dist'] == None:
             best_fit_ks = res
-        elif best_fit_ks['ks'].pvalue > res['ks'].pvalue:
+        elif best_fit_ks['ks'].pvalue < res['ks'].pvalue:
             best_fit_ks = res
         if best_fit_omega['dist'] == None:
             best_fit_omega = res
-        elif best_fit_omega['omega'].pvalue > res['omega'].pvalue:
+        elif best_fit_omega['omega'].pvalue < res['omega'].pvalue:
             best_fit_omega = res
     return (best_fit_ks, best_fit_omega)
