@@ -6,7 +6,7 @@ import statsmodels.api as sm
 
 QQPLOT_FOLDER = './figures/qqplots/'
 
-def draw_qq(kde_values: pd.Series, estimated: pd.Series, title: str, method: 'str'):
+def draw_qq(kde_values: pd.Series, estimated: pd.Series, title: str, method: str, test_name: str, p_value: float):
     min_qn = np.min([kde_values.min(), estimated.min()])
     max_qn = np.max([kde_values.max(), estimated.max()])
     x = np.linspace(min_qn, max_qn)
@@ -19,6 +19,6 @@ def draw_qq(kde_values: pd.Series, estimated: pd.Series, title: str, method: 'st
     plt.ylim([min_qn, max_qn])
     plt.grid(True)
 
-    plt.title(f'QQ-plot for {title} using {method}')
+    plt.title(f'QQ-plot for {title} using {method} done for {test_name} with p-value {p_value}')
     plt.savefig(f'{QQPLOT_FOLDER}qqplot_{title}_{method}.png', bbox_inches='tight')
     plt.show()
