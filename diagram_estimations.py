@@ -20,7 +20,7 @@ dstrs = {
 def draw_hist_kde(df: pd.DataFrame, x: pd.Series, fire_size_class: str, property: str, kde_values: pd.Series, binz: int):
     sns.displot(data=df, x=property, label=f'Distribution of {property}', bins=binz, stat="probability")
     plt.plot(x, kde_values, label='KDE')
-    plt.title(f'Histogram and KDE for {property}')
+    plt.title(f'Histogram and KDE for {property} for class {fire_size_class}')
     plt.legend()
     plt.savefig(f'{MAIN_FOLDER}kde_histogram_{property}_{fire_size_class}.png', bbox_inches='tight')
     plt.show()
@@ -71,7 +71,7 @@ def draw_mle_diagrams(df: pd.DataFrame, x: pd.Series, fire_size_class: str, prop
 
     sns.displot(data=df, x=property, label=f'Distribution of {property}', bins=binz, stat="probability")
     plt.plot(x, gamma.pdf(x, mle['gamma'][0], mle['gamma'][1], mle['gamma'][2]), label='GAMMA')
-    plt.plot(x, lognorm.pdf(x, mle['lognorm'][0], mle['lognorm'][1], mle['lognorm'][2]), label='lognormal')
+    #plt.plot(x, lognorm.pdf(x, mle['lognorm'][0], mle['lognorm'][1], mle['lognorm'][2]), label='lognormal')
     plt.plot(x, exponnorm.pdf(x, mle['exponnorm'][0], mle['exponnorm'][1], mle['exponnorm'][2]), label='EXP normal')
     plt.plot(x, expon.pdf(x, mle['expon'][0], mle['expon'][1]), label='EXPonential')
     plt.title(f'Maximum Likelihood Estimation for variable {property}')
@@ -81,7 +81,7 @@ def draw_mle_diagrams(df: pd.DataFrame, x: pd.Series, fire_size_class: str, prop
 
     test_results = []
     test_results.append(calculate_tests(kde_values, 'gamma', mle['gamma']))
-    test_results.append(calculate_tests(kde_values, 'lognorm', mle['lognorm']))
+    #test_results.append(calculate_tests(kde_values, 'lognorm', mle['lognorm']))
     test_results.append(calculate_tests(kde_values, 'exponnorm', mle['exponnorm']))
     test_results.append(calculate_tests(kde_values, 'expon', mle['expon']))
 
