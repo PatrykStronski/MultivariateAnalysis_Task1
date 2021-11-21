@@ -88,14 +88,14 @@ def draw_mle_diagrams(df: pd.DataFrame, x: pd.Series, fire_size_class: str, prop
     best_fit_ks, best_fit_omega = choose_best_fitness(test_results)
     if best_fit_ks['dist'] != None:
         if best_fit_ks['dist'] != 'expon':
-            draw_qq(kde_values, dstrs[best_fit_ks['dist']](x, mle[best_fit_ks['dist']][0], mle[best_fit_ks['dist']][1], mle[best_fit_ks['dist']][2]), best_fit_ks['dist'], 'method of moments', 'ks_test', best_fit_ks['ks'].pvalue)
+            draw_qq(kde_values, dstrs[best_fit_ks['dist']](x, mle[best_fit_ks['dist']][0], mle[best_fit_ks['dist']][1], mle[best_fit_ks['dist']][2]), best_fit_ks['dist'], 'mle', 'ks_test', best_fit_ks['ks'].pvalue)
         else:
-            draw_qq(kde_values, dstrs[best_fit_ks['dist']](x, mle[best_fit_ks['dist']][0], mle[best_fit_ks['dist']][1]), best_fit_ks['dist'], 'method of moments', 'ks_test', best_fit_ks['ks'].pvalue)
+            draw_qq(kde_values, dstrs[best_fit_ks['dist']](x, mle[best_fit_ks['dist']][0], mle[best_fit_ks['dist']][1]), best_fit_ks['dist'], 'mle', 'ks_test', best_fit_ks['ks'].pvalue)
     if best_fit_omega['dist'] != None:
         if best_fit_omega['dist'] != 'expon':
-            draw_qq(kde_values, dstrs[best_fit_omega['dist']](x, mle[best_fit_omega['dist']][0], mle[best_fit_omega['dist']][1], mle[best_fit_omega['dist']][2]), best_fit_omega['dist'], 'method of moments', 'cramervon_mises_test', best_fit_omega['omega'].pvalue)
+            draw_qq(kde_values, dstrs[best_fit_omega['dist']](x, mle[best_fit_omega['dist']][0], mle[best_fit_omega['dist']][1], mle[best_fit_omega['dist']][2]), best_fit_omega['dist'], 'mle', 'cramervon_mises_test', best_fit_omega['omega'].pvalue)
         else:
-            draw_qq(kde_values, dstrs[best_fit_omega['dist']](x, mle[best_fit_omega['dist']][0], mle[best_fit_omega['dist']][1]), best_fit_omega['dist'], 'method of moments', 'cramervon_mises_test', best_fit_omega['omega'].pvalue)
+            draw_qq(kde_values, dstrs[best_fit_omega['dist']](x, mle[best_fit_omega['dist']][0], mle[best_fit_omega['dist']][1]), best_fit_omega['dist'], 'mle', 'cramervon_mises_test', best_fit_omega['omega'].pvalue)
 
 
 def draw_ls_diagrams(df: pd.DataFrame, x: pd.Series, fire_size_class: str, property: str, kde_values: pd.Series, binz: int):
@@ -130,11 +130,11 @@ def draw_ls_diagrams(df: pd.DataFrame, x: pd.Series, fire_size_class: str, prope
     best_fit_ks, best_fit_omega = choose_best_fitness(test_results)
     if best_fit_ks['dist'] != None:
         if best_fit_ks['dist'] != 'expon':
-            draw_qq(kde_values, dstrs[best_fit_ks['dist']](x, ls[best_fit_ks['dist']][0], ls[best_fit_ks['dist']][1], ls[best_fit_ks['dist']][2]), best_fit_ks['dist'], 'method of moments', 'ks_test', best_fit_ks['ks'].pvalue)
+            draw_qq(kde_values, dstrs[best_fit_ks['dist']](x, ls[best_fit_ks['dist']][0], ls[best_fit_ks['dist']][1], ls[best_fit_ks['dist']][2]), best_fit_ks['dist'], 'least squares', 'ks_test', best_fit_ks['ks'].pvalue)
         else:
-            draw_qq(kde_values, dstrs[best_fit_ks['dist']](x, ls[best_fit_ks['dist']][0], ls[best_fit_ks['dist']][1]), best_fit_ks['dist'], 'method of moments', 'ks_test', best_fit_ks['ks'].pvalue)
+            draw_qq(kde_values, dstrs[best_fit_ks['dist']](x, ls[best_fit_ks['dist']][0], ls[best_fit_ks['dist']][1]), best_fit_ks['dist'], 'least squares', 'ks_test', best_fit_ks['ks'].pvalue)
     if best_fit_omega['dist'] != None:
         if best_fit_omega['dist'] != 'expon':
-            draw_qq(kde_values, dstrs[best_fit_omega['dist']](x, ls[best_fit_omega['dist']][0], ls[best_fit_omega['dist']][1], ls[best_fit_omega['dist']][2]), best_fit_omega['dist'], 'method of moments', 'cramervon_mises_test', best_fit_omega['omega'].pvalue)
+            draw_qq(kde_values, dstrs[best_fit_omega['dist']](x, ls[best_fit_omega['dist']][0], ls[best_fit_omega['dist']][1], ls[best_fit_omega['dist']][2]), best_fit_omega['dist'], 'least squares', 'cramervon_mises_test', best_fit_omega['omega'].pvalue)
         else:
-            draw_qq(kde_values, dstrs[best_fit_omega['dist']](x, ls[best_fit_omega['dist']][0], ls[best_fit_omega['dist']][1]), best_fit_omega['dist'], 'method of moments', 'cramervon_mises_test', best_fit_omega['omega'].pvalue)
+            draw_qq(kde_values, dstrs[best_fit_omega['dist']](x, ls[best_fit_omega['dist']][0], ls[best_fit_omega['dist']][1]), best_fit_omega['dist'], 'least squares', 'cramervon_mises_test', best_fit_omega['omega'].pvalue)
