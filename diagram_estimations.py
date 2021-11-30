@@ -70,6 +70,7 @@ def draw_mle_diagrams(df: pd.DataFrame, x: pd.Series, fire_size_class: str, prop
     mle['expon'] = expon.fit(df[property])
 
     sns.displot(data=df, x=property, label=f'Distribution of {property}', bins=binz, stat="probability")
+    plt.plot(x, kde_values, label='KDE')
     plt.plot(x, gamma.pdf(x, mle['gamma'][0], mle['gamma'][1], mle['gamma'][2]), label='GAMMA')
     #plt.plot(x, lognorm.pdf(x, mle['lognorm'][0], mle['lognorm'][1], mle['lognorm'][2]), label='lognormal')
     plt.plot(x, exponnorm.pdf(x, mle['exponnorm'][0], mle['exponnorm'][1], mle['exponnorm'][2]), label='EXP normal')
