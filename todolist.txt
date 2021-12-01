@@ -1,0 +1,5 @@
+1. fire_size for all classes
+2. fire_size for B class
+3. Temp_pre_7
+4. Hum_pre_7
+5. Wind_pre_7

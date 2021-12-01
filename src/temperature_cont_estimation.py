@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 from scipy.stats import gaussian_kde 
-from diagram_estimations import draw_mm_diagrams, draw_mle_diagrams, draw_ls_diagrams
+from src.diagram_estimations import draw_mm_diagrams, draw_mle_diagrams, draw_ls_diagrams
 
 df = pd.read_csv('./data/FW_Veg_Rem_Combined.csv')
 
