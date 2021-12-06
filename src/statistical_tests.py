@@ -9,9 +9,9 @@ def calculate_tests(kde_values: pd.Series, dist_name: str, params: tuple) -> dic
     print(f'FOR {dist_name}: Kolmogorov-Smirnoff test result {ks}, whereas Omega squared test (Cramér–von Mises) test {omega2}')
     return { 'dist': dist_name, 'ks': ks, 'omega': omega2}
 
-def calculate_tests_v2(kde_values: pd.Series, estimated: pd.Series, dist_name: str, params: tuple) -> dict:
+def calculate_tests_v2(kde_values: pd.Series, estimated: pd.Series, dist_name: str) -> dict:
     ks = scipy.stats.kstest(kde_values, estimated)
-    omega2 = scipy.stats.cramervonmises(kde_values, dist_name)
+    omega2 = scipy.stats.cramervonmises_2samp(kde_values, estimated)
     print(f'FOR {dist_name}: Kolmogorov-Smirnoff test result {ks}, whereas Omega squared test (Cramér–von Mises) test {omega2}')
     return { 'dist': dist_name, 'ks': ks, 'omega': omega2}
 
